@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  judgesystem:
+    image: ghcr.io/yanorei32/yr32-judgesystem:latest@sha256:e879352dd0e03d06b43f94b1bf76914bc8aed3e60a88a342d1d9969fca8dbaa4
+    hostname: judgesystem
+    container_name: judgesystem__judgesystem
+
+    restart: unless-stopped
+    user: root
+
+    volumes:
+      - type: bind
+        source: ./practices.json
+        target: /etc/practices.json
+        read_only: true
+
+      - type: bind
+        source: ./users.json
+        target: /etc/users.json
+        read_only: true
+
+    networks:
+      - judgesystem_cloudflared
+
+  cloudflared:
+    image: crazymax/cloudflared:2022.5.3
+    hostname: cloudflared
+    container_name: judgesystem__cloudflared
+
+    depends_on:
+      - judgesystem
+
+    restart: unless-stopped
+    user: root
+
+    volumes:
+      - type: bind
+        source: /etc/cloudflared/cert.pem
+        target: /etc/cloudflared/cert.pem
+        read_only: true
+
+    networks:
+      - judgesystem_cloudflared
+      - cloudflared_internet
+
+    command:
+      tunnel --hostname ${DOMAIN_NAME} --url http://judgesystem:8080
+
+networks:
+  judgesystem_cloudflared:
+    name: judgesystem__judgesystem_cloudflared
+    internal: true
+
+  cloudflared_internet:
+    name: judgesystem__judgesystem_internet

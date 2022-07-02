@@ -1,0 +1,17 @@
+[
+	{
+		"id": "welcome",
+		"title": "Welcome to yr32's python judge system",
+		"description": "これはテストコースです。",
+		"timeout_ms": 100,
+		"header": "",
+		"footer": "",
+		"testcases": [
+			{
+				"note": "Hello Worldを出力してください。",
+				"input": "",
+				"output": "Hello World\n"
+			}
+		]
+	}
+]
