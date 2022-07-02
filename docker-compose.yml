@@ -5,6 +5,7 @@ services:
     image: ghcr.io/yanorei32/yr32-judgesystem:latest@sha256:77d51e3a45c05aa97729d118bb564a4827f06c4f7010342ee9e4d25bc5d565b6
     hostname: judgesystem
     container_name: judgesystem__judgesystem
+    init: true
 
     restart: unless-stopped
     user: root
