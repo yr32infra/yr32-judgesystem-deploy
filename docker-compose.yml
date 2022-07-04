@@ -21,6 +21,12 @@ services:
         target: /etc/users.json
         read_only: true
 
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 512M
+
     networks:
       - judgesystem_cloudflared
 
