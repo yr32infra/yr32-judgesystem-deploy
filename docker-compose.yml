@@ -31,7 +31,7 @@ services:
       - judgesystem_cloudflared
 
   cloudflared:
-    image: crazymax/cloudflared:2022.5.3
+    image: crazymax/cloudflared:2022.7.1
     hostname: cloudflared
     container_name: judgesystem__cloudflared
 
