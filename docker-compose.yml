@@ -28,17 +28,21 @@ services:
           memory: 512M
 
     networks:
-      - judgesystem_cloudflared
+      judgesystem_cloudflared:
 
   cloudflared:
-    image: crazymax/cloudflared:2022.7.1
+    image: cloudflare/cloudflared:2022.7.1
     hostname: cloudflared
     container_name: judgesystem__cloudflared
-
-    depends_on:
-      - judgesystem
-
     restart: unless-stopped
+
+    environment:
+      TUNNEL_METRICS: 0.0.0.0:9126
+      TUNNEL_URL: http://judgesystem:8080
+      TUNNEL_HOSTNAME: ${DOMAIN_NAME}
+      TUNNEL_LOGFILE: /dev/stdout
+
+    command: tunnel
     user: root
 
     volumes:
@@ -47,14 +51,23 @@ services:
         target: /etc/cloudflared/cert.pem
         read_only: true
 
-    networks:
-      - judgesystem_cloudflared
-      - cloudflared_internet
+    deploy:
+      resources:
+        limits:
+          memory: 128m
 
-    command:
-      tunnel --hostname ${DOMAIN_NAME} --url http://judgesystem:8080
+    networks:
+      judgesystem_cloudflared:
+      cloudflared_internet:
+      prometheus__cloudflared:
+        aliases:
+          - judgesystem__cloudflared
 
 networks:
+  prometheus__cloudflared:
+    name: prometheus__cloudflared
+    external: true
+
   judgesystem_cloudflared:
     name: judgesystem__judgesystem_cloudflared
     internal: true
