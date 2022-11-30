@@ -31,7 +31,7 @@ services:
       judgesystem_cloudflared:
 
   cloudflared:
-    image: cloudflare/cloudflared:2022.11.0
+    image: cloudflare/cloudflared:2022.11.1
     hostname: cloudflared
     container_name: judgesystem__cloudflared
     restart: unless-stopped
