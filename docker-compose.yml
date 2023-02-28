@@ -31,7 +31,7 @@ services:
       judgesystem_cloudflared:
 
   cloudflared:
-    image: cloudflare/cloudflared:2023.2.1@sha256:5235e62dc2f4afe707355a3ab30babe0f15523bba12bce496e7259ad4eb580d1
+    image: cloudflare/cloudflared:2023.2.2@sha256:75e28d9ab3a1f7535169e98c9762fe14675010e3f9d027fd3c60b9ee03bc14fb
     hostname: cloudflared
     container_name: judgesystem__cloudflared
     restart: unless-stopped
