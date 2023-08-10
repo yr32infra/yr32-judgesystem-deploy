@@ -31,30 +31,17 @@ services:
       judgesystem_cloudflared:
 
   cloudflared:
-    image: cloudflare/cloudflared:2023.7.3@sha256:551fbcfb9f76b8dbac397c55f468cfe3b09e0f4332f355118b4f5d904d66c028
+    image: cloudflare/cloudflared:2023.6.1-amd64@sha256:0a1a8ce5f8b259ac6918cd2c13987d8e0e21fda2add6789d4d9096192c477742
     hostname: cloudflared
     container_name: judgesystem__cloudflared
     restart: unless-stopped
 
     environment:
       TUNNEL_METRICS: 0.0.0.0:9126
-      TUNNEL_URL: http://judgesystem:8080
-      TUNNEL_HOSTNAME: ${DOMAIN_NAME}
       TUNNEL_LOGFILE: /dev/stdout
 
-    command: tunnel
+    command: tunnel run --token ${TUNNEL_TOKEN}
     user: root
-
-    volumes:
-      - type: bind
-        source: /etc/cloudflared/cert.pem
-        target: /etc/cloudflared/cert.pem
-        read_only: true
-
-    deploy:
-      resources:
-        limits:
-          memory: 128m
 
     networks:
       judgesystem_cloudflared:
@@ -62,6 +49,11 @@ services:
       prometheus__cloudflared:
         aliases:
           - judgesystem__cloudflared
+
+    deploy:
+      resources:
+        limits:
+          memory: 128m
 
 networks:
   prometheus__cloudflared:
