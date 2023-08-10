@@ -38,23 +38,10 @@ services:
 
     environment:
       TUNNEL_METRICS: 0.0.0.0:9126
-      TUNNEL_URL: http://judgesystem:8080
-      TUNNEL_HOSTNAME: ${DOMAIN_NAME}
       TUNNEL_LOGFILE: /dev/stdout
 
-    command: tunnel
+    command: tunnel run --token ${TUNNEL_TOKEN}
     user: root
-
-    volumes:
-      - type: bind
-        source: /etc/cloudflared/cert.pem
-        target: /etc/cloudflared/cert.pem
-        read_only: true
-
-    deploy:
-      resources:
-        limits:
-          memory: 128m
 
     networks:
       judgesystem_cloudflared:
@@ -62,6 +49,11 @@ services:
       prometheus__cloudflared:
         aliases:
           - judgesystem__cloudflared
+
+    deploy:
+      resources:
+        limits:
+          memory: 128m
 
 networks:
   prometheus__cloudflared:
