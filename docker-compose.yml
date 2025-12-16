@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   judgesystem:
-    image: ghcr.io/yanorei32/yr32-judgesystem:latest@sha256:30c0140ce0811e981483b9012458554e56db766d69ef712f47cd3caa79e22e31
+    image: ghcr.io/yanorei32/yr32-judgesystem:latest@sha256:cc5332d8b002c20436cc91e8955b738015fb45b1aeb582a212529d62523c7998
     hostname: judgesystem
     container_name: judgesystem__judgesystem
     init: true
